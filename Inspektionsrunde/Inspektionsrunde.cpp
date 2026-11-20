@@ -37,30 +37,29 @@ public:
     bool istZuHoch() const;
 };
 
+void erfasseMessung(Messpunkt punkt, int wert);
+
 int main() {
-    // Vier Fahrten zu je 10: zwei Messstellen besuchen und zurueckkehren.
     Roboter roboter1("Robert", 40);
-    Messpunkt pumpe("Pumpe", 80);
-    Messpunkt motor("Motor", 90);
 
-    // Position 1: Pumpe pruefen.
-    roboter1.fahren();
-    pumpe.messen(75);
-    cout << pumpe.getName() << ": " << pumpe.getMesswert()
-         << ", zu hoch: " << pumpe.istZuHoch() << "\n";
+    vector<Messpunkt> runde;
+    runde.push_back(Messpunkt("Pumpe", 80));
+    runde.push_back(Messpunkt("Motor", 90));
 
-    // Position 2: Motor pruefen.
-    roboter1.fahren();
-    motor.messen(92);
-    cout << motor.getName() << ": " << motor.getMesswert()
-         << ", zu hoch: " << motor.istZuHoch() << "\n";
+    // Der Roboter liefert die Messwerte der Runde als Liste.
+    vector<int> werte = {75, 92};
 
-    // An derselben Station den Grenzfall pruefen.
-    motor.messen(90);
-    cout << "Motor genau an der Grenze: " << motor.istZuHoch() << "\n";
-    cout << "Pumpe unveraendert: " << pumpe.getMesswert() << "\n";
+    for (int i = 0; i < runde.size(); i++) {
+        roboter1.fahren();
+        erfasseMessung(runde.at(i), werte.at(i));
+    }
 
-    // Nach der Inspektionsrunde zur Ladestation zurueckkehren.
+    // Bericht am Ende der Runde, direkt aus der Liste.
+    for (int i = 0; i < runde.size(); i++) {
+        cout << runde.at(i).getName() << ": " << runde.at(i).getMesswert() << "\n";
+    }
+
+    // Nach der Runde zur Ladestation zurueckkehren.
     roboter1.zurueckfahren();
     roboter1.zurueckfahren();
     roboter1.laden();
@@ -127,6 +126,10 @@ void Roboter::laden() {
     if (position == 0) {
         akku = 100;
     }
+}
+
+void erfasseMessung(Messpunkt punkt, int wert) {
+    punkt.messen(wert);
 }
 
 Messpunkt::Messpunkt(string startName, int startGrenzwert) {
