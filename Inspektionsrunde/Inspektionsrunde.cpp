@@ -23,27 +23,49 @@ public:
     void laden();
 };
 
+class Messpunkt {
+private:
+    string name;
+    int grenzwert;
+    int messwert;
+public:
+    Messpunkt(string startName, int startGrenzwert);
+    string getName() const;
+    int getGrenzwert() const;
+    int getMesswert() const;
+    void messen(int wert);
+    bool istZuHoch() const;
+};
+
 int main() {
-    vector<int> messwerte = {75, 80, 92};
-    messwerte.push_back(64);
-    for (int i = 0; i < messwerte.size(); i++) {
-        cout << "Messung " << i + 1 << ": " << messwerte.at(i) << "\n";
-    }
+    // Vier Fahrten zu je 10: zwei Messstellen besuchen und zurueckkehren.
+    Roboter roboter1("Robert", 40);
+    Messpunkt pumpe("Pumpe", 80);
+    Messpunkt motor("Motor", 90);
 
-    Roboter roboter1("Robert", 20);
-    Roboter roboter2("Nova");
-
+    // Position 1: Pumpe pruefen.
     roboter1.fahren();
-    roboter1.laden();
-    cout << "Robert: Position " << roboter1.getPosition()
-         << ", Akku " << roboter1.getAkku() << "\n";
+    pumpe.messen(75);
+    cout << pumpe.getName() << ": " << pumpe.getMesswert()
+         << ", zu hoch: " << pumpe.istZuHoch() << "\n";
 
+    // Position 2: Motor pruefen.
+    roboter1.fahren();
+    motor.messen(92);
+    cout << motor.getName() << ": " << motor.getMesswert()
+         << ", zu hoch: " << motor.istZuHoch() << "\n";
+
+    // An derselben Station den Grenzfall pruefen.
+    motor.messen(90);
+    cout << "Motor genau an der Grenze: " << motor.istZuHoch() << "\n";
+    cout << "Pumpe unveraendert: " << pumpe.getMesswert() << "\n";
+
+    // Nach der Inspektionsrunde zur Ladestation zurueckkehren.
+    roboter1.zurueckfahren();
     roboter1.zurueckfahren();
     roboter1.laden();
-    cout << "Robert: Position " << roboter1.getPosition()
+    cout << roboter1.getName() << ": Position " << roboter1.getPosition()
          << ", Akku " << roboter1.getAkku() << "\n";
-    cout << roboter2.getName() << ": Position " << roboter2.getPosition()
-         << ", Akku " << roboter2.getAkku() << "\n";
     return 0;
 }
 
@@ -105,4 +127,30 @@ void Roboter::laden() {
     if (position == 0) {
         akku = 100;
     }
+}
+
+Messpunkt::Messpunkt(string startName, int startGrenzwert) {
+    name = startName;
+    grenzwert = startGrenzwert;
+    messwert = 0;
+}
+
+string Messpunkt::getName() const {
+    return name;
+}
+
+int Messpunkt::getGrenzwert() const {
+    return grenzwert;
+}
+
+int Messpunkt::getMesswert() const {
+    return messwert;
+}
+
+void Messpunkt::messen(int wert) {
+    // Hier den neuen Messwert speichern.
+}
+
+bool Messpunkt::istZuHoch() const {
+    return false; // Hier den Grenzwert pruefen.
 }
