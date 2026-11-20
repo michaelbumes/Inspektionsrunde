@@ -1,11 +1,29 @@
 # Inspektionsrunde
 
-Öffnen Sie `Inspektionsrunde.slnx` in Visual Studio und starten Sie das Programm mit Strg+F5.
+Ausgangsstand für den Unterricht Softwareentwicklung am 20.11.2026: der Roboter vom 30.10. mit Fahren, Zurückfahren und Laden.
 
-Die Quelldatei ist `Inspektionsrunde/Inspektionsrunde.cpp`. Sie enthält den bereinigten, bestätigten Roboterstand vom 30.10. mit `void laden()`, nicht den vorbereiteten erweiterten Lehrer-Endstand. Der Code ist gegenüber dieser Nachbereitung unverändert.
+## Öffnen
 
-Das Projekt verwendet die Einstellungen des vorhandenen Visual-Studio-Projekts vom 23.10.: C++20, Toolset v145, Windows SDK 10.0. Bei einer anderen Installation wählen Sie nur nach Absprache das installierte Toolset.
+1. Visual Studio: **Git**, **Repository klonen**.
+2. Adresse: `https://github.com/michaelbumes/Inspektionsrunde.git`
+3. `Inspektionsrunde.slnx` öffnen und mit Strg+F5 starten.
 
-Erwarteter Schluss: Robert steht nach Rückfahrt und Laden an Position 0 mit Akku 100. Nova bleibt an Position 0 mit Akku 100.
+Die Quelldatei ist `Inspektionsrunde/Inspektionsrunde.cpp`.
 
-Die neuen Aufgaben werden in der Stunde gezeigt. Dieser Ausgangsstand enthält keine Lösungen dazu.
+Falls Visual Studio beim Öffnen anbietet, das Projekt auf ein installiertes Toolset umzustellen, bestätigen Sie das.
+
+Ohne Git: auf GitHub **Code**, **Download ZIP**, entpacken und `Inspektionsrunde.slnx` öffnen.
+
+## Erwartete Ausgabe
+
+```text
+Messung 1: 75
+Messung 2: 80
+Messung 3: 92
+Messung 4: 64
+Robert faehrt zu Position 1.
+Robert: Position 1, Akku 10
+Robert faehrt zurueck zu Position 0.
+Robert: Position 0, Akku 100
+Nova: Position 0, Akku 100
+```
