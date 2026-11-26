@@ -40,6 +40,11 @@ public:
 void erfasseMessung(Messpunkt punkt, int wert);
 
 int main() {
+    // Test der beiden Methoden, kann danach geloescht werden.
+    Messpunkt test("Test", 90);
+    test.messen(92);
+    cout << test.getMesswert() << " " << test.istZuHoch() << "\n";
+
     Roboter roboter1("Robert", 40);
 
     vector<Messpunkt> runde;
@@ -151,9 +156,9 @@ int Messpunkt::getMesswert() const {
 }
 
 void Messpunkt::messen(int wert) {
-    // Hier den neuen Messwert speichern.
+    messwert = wert;
 }
 
 bool Messpunkt::istZuHoch() const {
-    return false; // Hier den Grenzwert pruefen.
+    return messwert > grenzwert;
 }
