@@ -37,14 +37,9 @@ public:
     bool istZuHoch() const;
 };
 
-void erfasseMessung(Messpunkt punkt, int wert);
+void erfasseMessung(Messpunkt& punkt, int wert);
 
 int main() {
-    // Test der beiden Methoden, kann danach geloescht werden.
-    Messpunkt test("Test", 90);
-    test.messen(92);
-    cout << test.getMesswert() << " " << test.istZuHoch() << "\n";
-
     Roboter roboter1("Robert", 40);
 
     vector<Messpunkt> runde;
@@ -61,7 +56,11 @@ int main() {
 
     // Bericht am Ende der Runde, direkt aus der Liste.
     for (int i = 0; i < runde.size(); i++) {
-        cout << runde.at(i).getName() << ": " << runde.at(i).getMesswert() << "\n";
+        cout << runde.at(i).getName() << ": " << runde.at(i).getMesswert();
+        if (runde.at(i).istZuHoch()) {
+            cout << " Warnung";
+        }
+        cout << "\n";
     }
 
     // Nach der Runde zur Ladestation zurueckkehren.
@@ -133,7 +132,7 @@ void Roboter::laden() {
     }
 }
 
-void erfasseMessung(Messpunkt punkt, int wert) {
+void erfasseMessung(Messpunkt& punkt, int wert) {
     punkt.messen(wert);
 }
 
