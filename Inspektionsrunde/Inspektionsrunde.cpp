@@ -51,7 +51,19 @@ public:
     int getHoechsterMesswert() const;
 };
 
+int waehleRoboter(vector<Roboter> flotte, int bedarf);
+
 int main() {
+    vector<Roboter> flotte;
+    flotte.push_back(Roboter("Robert", 30));
+    flotte.push_back(Roboter("Nova", 20));
+    flotte.push_back(Roboter("Susi", 40));
+
+    // Tests der Auswahl
+    cout << waehleRoboter(flotte, 40) << "\n";
+    cout << waehleRoboter(flotte, 30) << "\n";
+    cout << waehleRoboter(flotte, 50) << "\n";
+
     Roboter roboter1("Robert", 40);
 
     vector<Messpunkt> runde;
@@ -198,4 +210,13 @@ int Sensor::getAnzahl() const {
 
 int Sensor::getMaximum() const {
     return maximum;
+}
+
+int waehleRoboter(vector<Roboter> flotte, int bedarf) {
+    for (int i = 0; i < flotte.size(); i++) {
+        if (flotte.at(i).getAkku() >= bedarf) {
+            return i;
+        }
+    }
+    return -1;
 }
