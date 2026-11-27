@@ -17,6 +17,20 @@ public:
     int getMaximum() const;
 };
 
+class Messpunkt {
+private:
+    string name;
+    int grenzwert;
+    int messwert;
+public:
+    Messpunkt(string startName, int startGrenzwert);
+    string getName() const;
+    int getGrenzwert() const;
+    int getMesswert() const;
+    void messen(int wert);
+    bool istZuHoch() const;
+};
+
 class Roboter {
 private:
     string name;
@@ -32,25 +46,10 @@ public:
     void fahren();
     void zurueckfahren();
     void laden();
+    void pruefe(Messpunkt& punkt, int wert);
     int getAnzahlMessungen() const;
     int getHoechsterMesswert() const;
 };
-
-class Messpunkt {
-private:
-    string name;
-    int grenzwert;
-    int messwert;
-public:
-    Messpunkt(string startName, int startGrenzwert);
-    string getName() const;
-    int getGrenzwert() const;
-    int getMesswert() const;
-    void messen(int wert);
-    bool istZuHoch() const;
-};
-
-void erfasseMessung(Messpunkt& punkt, int wert);
 
 int main() {
     Roboter roboter1("Robert", 40);
@@ -64,7 +63,7 @@ int main() {
 
     for (int i = 0; i < runde.size(); i++) {
         roboter1.fahren();
-        erfasseMessung(runde.at(i), werte.at(i));
+        roboter1.pruefe(runde.at(i), werte.at(i));
     }
 
     // Bericht am Ende der Runde, direkt aus der Liste.
@@ -147,16 +146,17 @@ void Roboter::laden() {
     }
 }
 
+void Roboter::pruefe(Messpunkt& punkt, int wert) {
+    sensor.erfassen(wert);
+    punkt.messen(wert);
+}
+
 int Roboter::getAnzahlMessungen() const {
     return sensor.getAnzahl();
 }
 
 int Roboter::getHoechsterMesswert() const {
     return sensor.getMaximum();
-}
-
-void erfasseMessung(Messpunkt& punkt, int wert) {
-    punkt.messen(wert);
 }
 
 Messpunkt::Messpunkt(string startName, int startGrenzwert) {
