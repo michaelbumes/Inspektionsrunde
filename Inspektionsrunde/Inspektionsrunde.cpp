@@ -59,13 +59,6 @@ int main() {
     flotte.push_back(Roboter("Nova", 20));
     flotte.push_back(Roboter("Susi", 40));
 
-    // Tests der Auswahl
-    cout << waehleRoboter(flotte, 40) << "\n";
-    cout << waehleRoboter(flotte, 30) << "\n";
-    cout << waehleRoboter(flotte, 50) << "\n";
-
-    Roboter roboter1("Robert", 40);
-
     vector<Messpunkt> runde;
     runde.push_back(Messpunkt("Pumpe", 80));
     runde.push_back(Messpunkt("Motor", 90));
@@ -73,9 +66,17 @@ int main() {
     // Der Roboter liefert die Messwerte der Runde als Liste.
     vector<int> werte = {75, 92};
 
+    // Zwei Fahrten hin und zwei zurueck, je 10 Akkupunkte.
+    int nr = waehleRoboter(flotte, 40);
+    if (nr == -1) {
+        cout << "Kein Roboter hat genug Akku.\n";
+        return 0;
+    }
+    Roboter& gewaehlt = flotte.at(nr);
+
     for (int i = 0; i < runde.size(); i++) {
-        roboter1.fahren();
-        roboter1.pruefe(runde.at(i), werte.at(i));
+        gewaehlt.fahren();
+        gewaehlt.pruefe(runde.at(i), werte.at(i));
     }
 
     // Bericht am Ende der Runde, direkt aus der Liste.
@@ -88,13 +89,19 @@ int main() {
     }
 
     // Nach der Runde zur Ladestation zurueckkehren.
-    roboter1.zurueckfahren();
-    roboter1.zurueckfahren();
-    roboter1.laden();
-    cout << roboter1.getName() << ": Position " << roboter1.getPosition()
-         << ", Akku " << roboter1.getAkku() << "\n";
-    cout << roboter1.getName() << ": " << roboter1.getAnzahlMessungen()
-         << " Messungen, hoechster Wert " << roboter1.getHoechsterMesswert() << "\n";
+    gewaehlt.zurueckfahren();
+    gewaehlt.zurueckfahren();
+    gewaehlt.laden();
+    cout << gewaehlt.getName() << ": Position " << gewaehlt.getPosition()
+         << ", Akku " << gewaehlt.getAkku() << "\n";
+    cout << gewaehlt.getName() << ": " << gewaehlt.getAnzahlMessungen()
+         << " Messungen, hoechster Wert " << gewaehlt.getHoechsterMesswert() << "\n";
+
+    // Flottenbericht: Zustand aller Roboter in der Liste.
+    for (int i = 0; i < flotte.size(); i++) {
+        cout << flotte.at(i).getName() << ": Akku " << flotte.at(i).getAkku()
+             << ", Messungen " << flotte.at(i).getAnzahlMessungen() << "\n";
+    }
     return 0;
 }
 
