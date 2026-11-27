@@ -7,11 +7,22 @@ using namespace std;
 // Bereinigter Nachbereitungsstand: Konstruktoren, Getter, Fahren und Laden.
 // Kein Mitschnitt des letzten Livecodes.
 
+class Sensor {
+private:
+    int anzahl = 0;
+    int maximum = 0;
+public:
+    void erfassen(int messwert);
+    int getAnzahl() const;
+    int getMaximum() const;
+};
+
 class Roboter {
 private:
     string name;
     int position;
     int akku;
+    Sensor sensor;
 public:
     Roboter(string startName, int startAkku);
     Roboter(string startName);
@@ -21,6 +32,8 @@ public:
     void fahren();
     void zurueckfahren();
     void laden();
+    int getAnzahlMessungen() const;
+    int getHoechsterMesswert() const;
 };
 
 class Messpunkt {
@@ -69,6 +82,8 @@ int main() {
     roboter1.laden();
     cout << roboter1.getName() << ": Position " << roboter1.getPosition()
          << ", Akku " << roboter1.getAkku() << "\n";
+    cout << roboter1.getName() << ": " << roboter1.getAnzahlMessungen()
+         << " Messungen, hoechster Wert " << roboter1.getHoechsterMesswert() << "\n";
     return 0;
 }
 
@@ -132,6 +147,14 @@ void Roboter::laden() {
     }
 }
 
+int Roboter::getAnzahlMessungen() const {
+    return sensor.getAnzahl();
+}
+
+int Roboter::getHoechsterMesswert() const {
+    return sensor.getMaximum();
+}
+
 void erfasseMessung(Messpunkt& punkt, int wert) {
     punkt.messen(wert);
 }
@@ -160,4 +183,19 @@ void Messpunkt::messen(int wert) {
 
 bool Messpunkt::istZuHoch() const {
     return messwert > grenzwert;
+}
+
+void Sensor::erfassen(int messwert) {
+    if (anzahl == 0 || messwert > maximum) {
+        maximum = messwert;
+    }
+    anzahl++;
+}
+
+int Sensor::getAnzahl() const {
+    return anzahl;
+}
+
+int Sensor::getMaximum() const {
+    return maximum;
 }
